@@ -100,7 +100,7 @@
             <br>
             2024 | HTML, CSS, JavaScript
             <br><br>
-              <iframe src="https://player.vimeo.com/video/1012950784?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="scooooooooooope"></iframe>
+              <iframe src="https://player.vimeo.com/video/1012950784" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="scooooooooooope"></iframe>
             </p>
         </div>
         
@@ -110,10 +110,9 @@
             <br>
             2023 | single-channel video
               <br>
-            3:00
-            <br><br>
-              <iframe src="https://player.vimeo.com/video/1084745783?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="the sweet taste of socks full of sugar water attracts butterflies, kills ants, and scares the birds away"></iframe>
-            </p>
+            3:00</p>
+              <div class="video-placeholder" data-src="https://player.vimeo.com/video/1084745783" title="…"> </div>
+            
         </div>
         
         <button class="collapsible">red_pont0On_fish_harvestER.WIDE-AERIAL_notAhearse;)</button>
@@ -197,14 +196,17 @@
                         <br>
                         2021 | single-channel video
                   <br>
-                  20:00
-                        <br><br>
-                  <iframe src="https://player.vimeo.com/video/1084742990?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="~AFK~ � [swamp_frawg_vibes_:3]"></iframe>
+                  20:00</p>
+                
+                <div style="aspect-ratio: 3 / 1;" class="video-placeholder" data-src="https://player.vimeo.com/video/1084742990" title="…"> </div>
+                        
+                  
                   
                   <img class="artimg" src="images/art/swampfrawg.jpg">
                   On display at the Czong Institute of Contemporary Art (Gimpo, South Korea)
+                <br><br>
                   
-                </p>
+                
             </div>
         
         <button class="collapsible">hAriy_buuuble.22_injur</button>
@@ -213,11 +215,11 @@
                         <br>
                         2020 | single-channel video
                   <br>
-                  0:40
-                        <br><br>
-                  <iframe src="https://player.vimeo.com/video/936885301?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="hAriy_buuuble.22_injur"></iframe>
+                  0:40</p>
                   
-                </p>
+                <div style="aspect-ratio: 9 / 16; max-width: 300px" class="video-placeholder" data-src="https://player.vimeo.com/video/936885301" title="…"> </div>
+                  
+                  
             </div>
 
 <button class="collapsible">Space Drill Y21K</button>
@@ -291,10 +293,10 @@
             <div class="content">
               <p>Toad and Bubba
                         <br>
-                        2020 | PowerPoint
-                        <br><br>
-                  <iframe src="https://player.vimeo.com/video/936883271?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" title="Toad and Bubba"></iframe>
-                </p>
+                  2020 | PowerPoint</p>
+                  
+                  <div style="aspect-ratio: 4 / 3" class="video-placeholder" data-src="https://player.vimeo.com/video/936883271" title="…"> </div>
+                
             </div>
         
         
@@ -368,21 +370,49 @@
         
         
         <script>
-var coll = document.getElementsByClassName("collapsible");
-var i;
+  var coll = document.getElementsByClassName("collapsible");
+  for (var i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var content = this.nextElementSibling;
 
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var content = this.nextElementSibling;
-    if (content.style.maxHeight){
-      content.style.maxHeight = null;
-    } else {
-      content.style.maxHeight = content.scrollHeight + "px";
-    } 
+      if (content.style.maxHeight) {
+        // closing
+        content.style.maxHeight = null;
+      } else {
+        // opening
+        content.style.maxHeight = content.scrollHeight + "px";
+
+        // inject video once
+        content.querySelectorAll('.video-placeholder').forEach(function(ph) {
+          if (ph.dataset.loaded) return;
+          var iframe = document.createElement('iframe');
+iframe.src     = ph.dataset.src + '?autoplay=1';
+iframe.allow   = 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media';
+iframe.loading = 'lazy';
+// this line ensures the hover‐tooltip shows up on the real iframe:
+iframe.setAttribute('title', ph.getAttribute('title'));
+// now insert it:
+ph.appendChild(iframe);
+ph.dataset.loaded = 'true';
+        });
+      }
+    });
+  }
+
+  // *** NEW: on resize, update open panels' maxHeight ***
+  window.addEventListener('resize', function() {
+    for (var i = 0; i < coll.length; i++) {
+      if (coll[i].classList.contains('active')) {
+        var content = coll[i].nextElementSibling;
+        // reset to new scrollHeight
+        content.style.maxHeight = content.scrollHeight + "px";
+      }
+    }
   });
-}
 </script>
+
         
     </body>
 </html>
+
